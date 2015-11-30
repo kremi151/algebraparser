@@ -12,9 +12,12 @@ import lu.kremi151.algebraparser.component.AStatement;
 import lu.kremi151.algebraparser.component.AVariable;
 import lu.kremi151.algebraparser.exception.AlgebraException;
 import lu.kremi151.algebraparser.function.ACosine;
+import lu.kremi151.algebraparser.function.ACrossfoot;
 import lu.kremi151.algebraparser.function.AExponential;
 import lu.kremi151.algebraparser.function.ALogarithm;
+import lu.kremi151.algebraparser.function.ASignum;
 import lu.kremi151.algebraparser.function.ASine;
+import lu.kremi151.algebraparser.function.ASquareRoot;
 import lu.kremi151.algebraparser.function.ATangent;
 import lu.kremi151.algebraparser.interfaces.AObject;
 import lu.kremi151.algebraparser.interfaces.AObjectSimplifiable;
@@ -41,6 +44,9 @@ public class AParser{
 				.registerFunction("tan", ATangent.class)
 				.registerFunction("log", ALogarithm.class)
 				.registerFunction("exp", AExponential.class)
+				.registerFunction("sign", ASignum.class)
+				.registerFunction("sqrt", ASquareRoot.class)
+				.registerFunction("cft", ACrossfoot.class)
 				.registerConstant("pi", Math.PI)
 				.registerConstant("cdeg", Math.PI / 180.0)
 				.registerConstant("e", Math.exp(1));
