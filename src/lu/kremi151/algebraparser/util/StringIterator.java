@@ -34,4 +34,10 @@ public class StringIterator implements Iterator<String>
 		// TODO: Implement this method
 	}
 	
+	public StringIterator clone(){
+		StringIterator newi = new StringIterator(obj);
+		newi.idx = this.idx;
+		return newi;
+	}
+	
 }

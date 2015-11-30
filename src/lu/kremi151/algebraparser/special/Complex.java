@@ -1,8 +1,10 @@
 package lu.kremi151.algebraparser.special;
 
+import lu.kremi151.algebraparser.exception.AlgebraException;
+import lu.kremi151.algebraparser.interfaces.AComplexable;
 import lu.kremi151.algebraparser.interfaces.AObject;
 
-public class Complex implements AObject
+public class Complex implements AObject, AComplexable
 {
 	
 	public static boolean DEFAULT_STRING_REPRESENTATION_CIS = false;
@@ -155,6 +157,16 @@ public class Complex implements AObject
 	public boolean isConstant()
 	{
 		return false;
+	}
+
+	@Override
+	public Complex getComplexResult(Complex c) throws AlgebraException {
+		return this;
+	}
+
+	@Override
+	public Complex getComplexResult(double r) throws AlgebraException {
+		return this;
 	}
 
 }

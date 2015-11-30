@@ -3,9 +3,7 @@ package lu.kremi151.algebraparser.component;
 import lu.kremi151.algebraparser.exception.AlgebraException;
 import lu.kremi151.algebraparser.interfaces.AObject;
 
-
-
-public class AAbsolute implements AObject
+public class AAbsolute extends ABasicObject
 {
 	
 	AObject base;

@@ -5,7 +5,7 @@ import lu.kremi151.algebraparser.interfaces.AMonomeable;
 import lu.kremi151.algebraparser.interfaces.AObject;
 import lu.kremi151.algebraparser.util.AlgebraHelper;
 
-public class ANegative implements AObject, AMonomeable {
+public class ANegative extends ABasicObject implements AMonomeable {
 
 	AObject obj;
 

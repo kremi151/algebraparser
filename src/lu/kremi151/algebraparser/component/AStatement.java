@@ -13,7 +13,7 @@ import lu.kremi151.algebraparser.util.ComplexHelper;
 import lu.kremi151.algebraparser.util.Debug;
 
 
-public class AStatement implements AObjectSimplifiable, AMonomeable, APolynomiable
+public class AStatement extends ABasicObject implements AObjectSimplifiable, AMonomeable, APolynomiable
 {
 
 	AObject stA;

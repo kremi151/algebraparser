@@ -5,7 +5,7 @@ import lu.kremi151.algebraparser.interfaces.AMonomeable;
 import lu.kremi151.algebraparser.interfaces.AObject;
 import lu.kremi151.algebraparser.interfaces.AObjectSimplifiable;
 
-public class AMonome implements AObject, AMonomeable, AObjectSimplifiable{
+public class AMonome extends ABasicObject implements AMonomeable, AObjectSimplifiable{
 	
 	double constant;
 	int degree;

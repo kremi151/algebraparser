@@ -1,10 +1,9 @@
 package lu.kremi151.algebraparser.component;
 
 import lu.kremi151.algebraparser.interfaces.AMonomeable;
-import lu.kremi151.algebraparser.interfaces.AObject;
 
 
-public class AVariable implements AObject, AMonomeable
+public class AVariable extends ABasicObject implements AMonomeable
 {
 
 	@Override

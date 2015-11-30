@@ -1,9 +1,8 @@
 package lu.kremi151.algebraparser.component;
 
 import lu.kremi151.algebraparser.interfaces.AMonomeable;
-import lu.kremi151.algebraparser.interfaces.AObject;
 
-public class AConstant implements AObject, AMonomeable {
+public class AConstant extends ABasicObject implements AMonomeable {
 
 	double v;
 

@@ -156,12 +156,8 @@ public class AParser{
 	private AObject parseAlgebra(StringIterator si) throws AlgebraException{
 		return parseAlgebra(si, AParseMode.DEFAULT);
 	}
-	
-	private AObject parseAlgebra(StringIterator si, AParseMode mode) throws AlgebraException{
-		return parseAlgebra(si, mode, 0);
-	}
 
-	private AObject parseAlgebra(StringIterator si, AParseMode mode, int argsLeft) throws AlgebraException{
+	private AObject parseAlgebra(StringIterator si, AParseMode mode) throws AlgebraException{
 		AObject res = null;
 		AOperation op = null;
 
@@ -261,6 +257,26 @@ public class AParser{
 			default:
 				return res;
 		}
+	}
+	
+	private AObject[] parseFunctionArguments(StringIterator si) throws AlgebraException{
+		StringIterator tmp = si.clone();
+		int argCount = 0;
+		while(true){
+			String n = tmp.next();
+			if(n.equalsIgnoreCase(";")){
+				argCount++;
+			}else if(n.equalsIgnoreCase(")")){
+				break;
+			}
+		}
+		tmp = null;
+		if(argCount == 0)throw new AlgebraException("A function must contain at least one argument");
+		AObject[] args = new AObject[argCount];
+		for(int i = 0 ; i < argCount ; i++){
+			args[i] = parseAlgebra(si, AParseMode.FUNCTION);
+		}
+		return args;
 	}
 	
 	private AObject getIntermediateResult(AObject currentResult, AOperation currentOperation, AObject newArg) throws AlgebraException{

@@ -1,10 +1,9 @@
 package lu.kremi151.algebraparser.component;
 
 import lu.kremi151.algebraparser.interfaces.AMonomeable;
-import lu.kremi151.algebraparser.interfaces.AObject;
 import lu.kremi151.algebraparser.interfaces.APolynomiable;
 
-public class APolynomial implements AObject, AMonomeable, APolynomiable{
+public class APolynomial extends ABasicObject implements AMonomeable, APolynomiable{
 	
 	private double[] factors;
 	private int highestDegree;
