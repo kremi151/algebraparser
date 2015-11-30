@@ -1,6 +1,5 @@
 package lu.kremi151.algebraparser.component;
 
-import lu.kremi151.algebraparser.Main;
 import lu.kremi151.algebraparser.exception.AlgebraException;
 import lu.kremi151.algebraparser.interfaces.AMonomeable;
 import lu.kremi151.algebraparser.interfaces.AObject;
@@ -11,6 +10,7 @@ import lu.kremi151.algebraparser.util.AOperation;
 import lu.kremi151.algebraparser.util.AParser;
 import lu.kremi151.algebraparser.util.AlgebraHelper;
 import lu.kremi151.algebraparser.util.ComplexHelper;
+import lu.kremi151.algebraparser.util.Debug;
 
 
 public class AStatement implements AObjectSimplifiable, AMonomeable, APolynomiable
@@ -28,7 +28,7 @@ public class AStatement implements AObjectSimplifiable, AMonomeable, APolynomiab
 	
 	public double getResult(double x) throws AlgebraException{
 		if(op==null){
-			Main.debug("op is null -> " + stA.getResult(x) + " ? " + stB.getResult(x));
+			Debug.println("op is null -> " + stA.getResult(x) + " ? " + stB.getResult(x));
 		}
 		switch(op){
 			case PLUS:
@@ -53,14 +53,17 @@ public class AStatement implements AObjectSimplifiable, AMonomeable, APolynomiab
 		boolean rootChanged = (o1 == stA) && (o2 == stB);
 		
 		if(isConstant()){
+			Debug.println("Statement + " + getStringRepresentation() + " is constant");
 			return new AConstant(getResult(0));
 		}else if((o1.isConstant() && o2 instanceof AMonomeable || o2.isConstant() && o1 instanceof AMonomeable) && op == AOperation.MULTI){
+			Debug.println("Statement + " + getStringRepresentation() + " has a monome and a constant");
 			AMonomeable as = (o2 instanceof AMonomeable)?(AMonomeable)o2:(AMonomeable)o1;
 			if(as.isMonome()){
 				double ct = (o1.isConstant())?o1.getResult(0):o2.getResult(0);
 				return new AMonome(ct * as.getConstantTerm(), as.getDegree());
 			}
 		}else if(o2.isConstant() && o1 instanceof AMonomeable && op == AOperation.POW){
+			Debug.println("Statement + " + getStringRepresentation() + " has a monome and a constant (power operation)");
 			AMonomeable as = (AMonomeable)o1;
 			if(as.isMonome()){
 				double pw = o2.getResult(0);
@@ -69,6 +72,7 @@ public class AStatement implements AObjectSimplifiable, AMonomeable, APolynomiab
 				}
 			}
 		}else if(AlgebraHelper.isMonome(o1) && AlgebraHelper.isMonome(o2)){
+			Debug.println("Statement + " + getStringRepresentation() + " has two monomes");
 			AMonomeable as1 = (AMonomeable)o1;
 			AMonomeable as2 = (AMonomeable)o2;
 			if(op == AOperation.PLUS || op == AOperation.MINUS){
@@ -104,6 +108,7 @@ public class AStatement implements AObjectSimplifiable, AMonomeable, APolynomiab
 				}
 			}
 		}else if(AlgebraHelper.isPolynome(o1) && AlgebraHelper.isPolynome(o2)){
+			Debug.println("Statement + " + getStringRepresentation() + " has two polynomes");
 			if(op == AOperation.PLUS || op == AOperation.MINUS){//TODO: Multi & Divide
 				APolynomiable ap1 = (APolynomiable) o1;
 				APolynomiable ap2 = (APolynomiable) o2;
@@ -117,15 +122,18 @@ public class AStatement implements AObjectSimplifiable, AMonomeable, APolynomiab
 				return new APolynomial(factors); 
 			}
 		}else if((op != AOperation.POW && op != AOperation.DIVIDE) && ((AlgebraHelper.isPolynome(o1) && AlgebraHelper.isMonome(o2)) || (AlgebraHelper.isPolynome(o2) && AlgebraHelper.isMonome(o1)))){
+			Debug.println("Statement + " + getStringRepresentation() + " has one polynome and one monome \\{^;/}");
 			AMonomeable mon = AlgebraHelper.isMonome(o1)?(AMonomeable)o1:(AMonomeable)o2;
 			APolynomiable poly = AlgebraHelper.isPolynome(o1)?(APolynomiable)o1:(APolynomiable)o2;
 			
 			int polyHD = poly.getDegree();
-			int highestDegree = Math.max(mon.getDegree(), polyHD);
+			int monHD = mon.getDegree();
+			int highestDegree = Math.max(monHD, polyHD);
 			
 			if(op == AOperation.MULTI)highestDegree = highestDegree + mon.getDegree();
 			
 			double[] factors = new double[highestDegree + 1];
+			
 			for(int i = 0 ; i <= polyHD ; i++){
 				factors[i] = poly.getConstantTermAt(i);
 			}
@@ -135,21 +143,25 @@ public class AStatement implements AObjectSimplifiable, AMonomeable, APolynomiab
 				double newFact = AlgebraHelper.calculate(factors[i], mon.getConstantTerm(), op);
 				factors[i] = newFact;
 			}else if(op == AOperation.MULTI){
-				for(int i = 0 ; i < factors.length ; i++){
+				double[] oldfactors = factors;
+				factors = new double[oldfactors.length];
+				for(int i = 0 ; i <= polyHD ; i++){
 					int newDeg = i + mon.getDegree();
-					double newFact = factors[i] * mon.getConstantTerm();
-					factors[i] = 0.0;
+					double newFact = oldfactors[i] * mon.getConstantTerm();
 					factors[newDeg] = newFact;
 				}
 			}
 			return new APolynomial(factors); 
 		}else if(o1.isConstant() && o2 instanceof Complex){
+			Debug.println("Statement + " + getStringRepresentation() + " has one constant and one complex number");
 			Complex c = (Complex)o2;
 			return ComplexHelper.calculateComplexOperation(c, Complex.fromNumber(o1.getResult(0)), op);
 		}else if(o2.isConstant() && o1 instanceof Complex){
+			Debug.println("Statement + " + getStringRepresentation() + " has one constant and one complex number");
 			Complex c = (Complex)o1;
 			return ComplexHelper.calculateComplexOperation(c, Complex.fromNumber(o2.getResult(0)), op);
 		}else if(o1 instanceof Complex && o2 instanceof Complex){
+			Debug.println("Statement + " + getStringRepresentation() + " has two complex numbers");
 			Complex c1 = (Complex)o1;
 			Complex c2 = (Complex)o2;
 			return ComplexHelper.calculateComplexOperation(c1, c2, op);

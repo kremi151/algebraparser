@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import lu.kremi151.algebraparser.Main;
 import lu.kremi151.algebraparser.component.AAbsolute;
 import lu.kremi151.algebraparser.component.AConstant;
 import lu.kremi151.algebraparser.component.AFunction;
@@ -171,27 +170,27 @@ public class AParser{
 				res = getIntermediateResult(res, op, arg);
 				op = AOperation.PLUS;
 				arg = null;
-				Main.debug("+ res: " + res);
+				Debug.println("+ res: " + res);
 			}else if(obj.equalsIgnoreCase("-")){
 				res = getIntermediateResult(res, op, arg);
 				op = AOperation.MINUS;
 				arg = null;
-				Main.debug("- res: " + res);
+				Debug.println("- res: " + res);
 			}else if(obj.equalsIgnoreCase("*")){
 				res = getIntermediateResult(res, op, arg);
 				op = AOperation.MULTI;
 				arg = null;
-				Main.debug("* res: " + res);
+				Debug.println("* res: " + res);
 			}else if(obj.equalsIgnoreCase("/")){
 				res = getIntermediateResult(res, op, arg);
 				op = AOperation.DIVIDE;
 				arg = null;
-				Main.debug("/ res: " + res);
+				Debug.println("/ res: " + res);
 			}else if(obj.equalsIgnoreCase("^")){
 				res = getIntermediateResult(res, op, arg);
 				op = AOperation.POW;
 				arg = null;
-				Main.debug("^ res: " + res);
+				Debug.println("^ res: " + res);
 			}else if(obj.equalsIgnoreCase("(")){
 				AObject tmp1 = parseAlgebra(si);
 				if(res == null){
@@ -223,10 +222,10 @@ public class AParser{
 				throw new AlgebraException("Using argument delimiter \";\" is completeley non-sense in a non-function context");
 			}else if(isSimpleArgument(obj)){
 				arg = obj;
-				Main.debug("setting arg to " + arg);
+				Debug.println("setting arg to " + arg);
 			}else if(isComplexArgument(obj)){
 				arg = obj;
-				Main.debug("setting complex arg to " + arg);
+				Debug.println("setting complex arg to " + arg);
 			}else{
 				try{
 					if(hasFunction(obj)){
@@ -259,7 +258,7 @@ public class AParser{
 	}
 	
 	private AObject getIntermediateResult(AObject currentResult, AOperation currentOperation, AObject newArg) throws AlgebraException{
-		Main.debug("psa: " + currentResult + " " + currentOperation + " " +newArg);
+		Debug.println("psa: " + currentResult + " " + currentOperation + " " +newArg);
 		if(currentResult == null){
 			if(newArg != null){
 				if(currentOperation == null || currentOperation == AOperation.PLUS){
@@ -279,7 +278,7 @@ public class AParser{
 				//nope
 			}
 		}
-		Main.debug("gir: " + currentResult);
+		Debug.println("gir: " + currentResult);
 		return currentResult;
 	}
 
@@ -297,7 +296,7 @@ public class AParser{
 	}
 
 	public AObject parseSimpleArgument(String phrase) throws AlgebraException{
-		Main.debug("parse simple argument \"" + phrase + "\"");
+		Debug.println("parse simple argument \"" + phrase + "\"");
 		AObject res = null;
 		StringIterator si = createSimpleIterator(phrase);
 		String arg = null;
@@ -405,7 +404,7 @@ public class AParser{
 			
 		}while(updated && iterations <= maxIterations);
 		
-		Main.debug("Simplified with " + iterations + " iterations");
+		Debug.println("Simplified with " + iterations + " iterations");
 		
 		return obj;
 	}
