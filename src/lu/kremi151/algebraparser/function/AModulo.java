@@ -1,31 +1,28 @@
 package lu.kremi151.algebraparser.function;
 
+import lu.kremi151.algebraparser.annotation.FunctionMeta;
 import lu.kremi151.algebraparser.component.AFunction;
 import lu.kremi151.algebraparser.exception.AlgebraException;
 import lu.kremi151.algebraparser.interfaces.AObject;
 
-public class ACrossfoot extends AFunction{
+@FunctionMeta(argsLength=2,argsMinimum=2)
+public class AModulo extends AFunction{
 
-	public ACrossfoot(AObject[] args){
+	AObject what;
+	
+	public AModulo(AObject[] args) {
 		super(args);
+		what = args[1];
 	}
 
 	@Override
 	public double getResult(double x) throws AlgebraException {
-		double sum = 0.0;
-		int res = (int)Math.floor(getInner().getResult(x));
-		
-		while(res > 0){
-			int n = res % 10;
-			res /= 10;
-			sum += n;
-		}
-		return sum;
+		return getInner().getResult(x) % what.getResult(x);
 	}
 
 	@Override
 	public String getStringRepresentation() {
-		return "cft(" + getInner().getStringRepresentation() + ")";
+		return "(" + getInner().getStringRepresentation() + " % " + what.getStringRepresentation() + ")";
 	}
 
 }

@@ -9,8 +9,8 @@ import lu.kremi151.algebraparser.interfaces.AObject;
 public class AExponential extends AFunction
 {
 
-	public AExponential(AObject inner){
-		super(inner);
+	public AExponential(AObject[] args){
+		super(args);
 	}
 
 	@Override

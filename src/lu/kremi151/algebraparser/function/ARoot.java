@@ -5,25 +5,30 @@ import lu.kremi151.algebraparser.component.AFunction;
 import lu.kremi151.algebraparser.exception.AlgebraException;
 import lu.kremi151.algebraparser.interfaces.AObject;
 
-@FunctionMeta(argsLength=1,argsMinimum=1)
-public class ASquareRoot extends AFunction{
+@FunctionMeta(argsLength=2,argsMinimum=2)
+public class ARoot extends AFunction{
+	
+	private AObject base = null;
 
-	public ASquareRoot(AObject[] args){
+	public ARoot(AObject[] args){
 		super(args);
+		base = args[1];
 	}
 
 	@Override
 	public double getResult(double x) throws AlgebraException {
 		double innerResult = getInner().getResult(x);
-		if(innerResult >= 0.0){
-			return Math.sqrt(innerResult);
+		double baseResult = base.getResult(x);
+		try{
+			return Math.pow(innerResult, 1.0/baseResult);
+		}catch(Throwable t){
+			throw new AlgebraException("Invalid mathematical operation");
 		}
-		throw new AlgebraException("The inner contant of a square root has to be >= 0");
 	}
 
 	@Override
 	public String getStringRepresentation() {
-		return "sqrt(" + getInner().getStringRepresentation() + ")";
+		return "root[" + base.getStringRepresentation() + "](" + getInner().getStringRepresentation() + ")";
 	}
 
 }

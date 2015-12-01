@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import lu.kremi151.algebraparser.annotation.FunctionMeta;
 import lu.kremi151.algebraparser.component.AAbsolute;
 import lu.kremi151.algebraparser.component.AConstant;
 import lu.kremi151.algebraparser.component.AFunction;
@@ -15,6 +16,8 @@ import lu.kremi151.algebraparser.function.ACosine;
 import lu.kremi151.algebraparser.function.ACrossfoot;
 import lu.kremi151.algebraparser.function.AExponential;
 import lu.kremi151.algebraparser.function.ALogarithm;
+import lu.kremi151.algebraparser.function.AModulo;
+import lu.kremi151.algebraparser.function.ARoot;
 import lu.kremi151.algebraparser.function.ASignum;
 import lu.kremi151.algebraparser.function.ASine;
 import lu.kremi151.algebraparser.function.ASquareRoot;
@@ -47,6 +50,8 @@ public class AParser{
 				.registerFunction("sign", ASignum.class)
 				.registerFunction("sqrt", ASquareRoot.class)
 				.registerFunction("cft", ACrossfoot.class)
+				.registerFunction("root", ARoot.class)
+				.registerFunction("mod", AModulo.class)
 				.registerConstant("pi", Math.PI)
 				.registerConstant("cdeg", Math.PI / 180.0)
 				.registerConstant("e", Math.exp(1));
@@ -232,7 +237,8 @@ public class AParser{
 				try{
 					if(hasFunction(obj)){
 						si.next();
-						AFunction tmp = createFunctionObject(obj, parseAlgebra(si, AParseMode.FUNCTION));
+						AObject[] args = parseFunctionArguments(si);
+						AFunction tmp = createFunctionObject(obj, args);
 						res = getIntermediateResult(res, op, tmp);
 						tmp = null;
 					}else if(hasConstant(obj)){
@@ -268,6 +274,8 @@ public class AParser{
 				argCount++;
 			}else if(n.equalsIgnoreCase(")")){
 				break;
+			}else if(argCount == 0){
+				argCount = 1;
 			}
 		}
 		tmp = null;
@@ -465,16 +473,18 @@ public class AParser{
 		return constants.containsKey(cname);
 	}
 	
-	private AFunction createFunctionObject(String name, AObject inner) throws NoSuchMethodException, IllegalArgumentException, InvocationTargetException, IllegalAccessException, InstantiationException{
+	private AFunction createFunctionObject(String name, AObject[] args) throws NoSuchMethodException, IllegalArgumentException, InvocationTargetException, IllegalAccessException, InstantiationException, AlgebraException{
 		Class<? extends AFunction> cl = functions.get(name.toLowerCase());
-//		FunctionMeta fm = cl.getAnnotation(FunctionMeta.class);
-//		int minArgs = Math.max(1, fm.argsMinimum());
-//		if(args.length < minArgs || args.length > fm.argsLength()){
-//			throw new RuntimeException("The function \"" + name + "\" does not accept " + args.length + " arguments, only up to " + fm.argsLength() + " arguments");
-//		}else{
-			AFunction f = cl.getConstructor(AObject.class).newInstance(inner);
-			return f;
-//		}
+		
+		FunctionMeta fm = cl.getAnnotation(FunctionMeta.class);
+		if(fm != null){
+			if(args.length < fm.argsMinimum() || args.length > fm.argsLength()){
+				throw new AlgebraException("The function \"" + name + "\" works only with " + fm.argsMinimum() + " - " + fm.argsLength() + " arguments");
+			}
+		}
+		
+		AFunction f = cl.getConstructor(AObject[].class).newInstance(new Object[]{args});
+		return f;
 	}
 	
 	private double getConstant(String name){

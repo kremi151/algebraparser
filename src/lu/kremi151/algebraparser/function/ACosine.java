@@ -9,8 +9,8 @@ import lu.kremi151.algebraparser.interfaces.AObject;
 public class ACosine extends AFunction
 {
 
-	public ACosine(AObject inner){
-		super(inner);
+	public ACosine(AObject[] args){
+		super(args);
 	}
 
 	@Override

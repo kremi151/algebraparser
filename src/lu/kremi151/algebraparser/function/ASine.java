@@ -9,8 +9,8 @@ import lu.kremi151.algebraparser.interfaces.AObject;
 public class ASine extends AFunction
 {
 	
-	public ASine(AObject inner){
-		super(inner);
+	public ASine(AObject[] args){
+		super(args);
 	}
 
 	@Override

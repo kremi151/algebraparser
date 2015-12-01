@@ -5,8 +5,8 @@ import lu.kremi151.algebraparser.interfaces.AObject;
 
 public class ASignum extends AFunction{
 
-	public ASignum(AObject inner) {
-		super(inner);
+	public ASignum(AObject[] args){
+		super(args);
 	}
 
 	@Override

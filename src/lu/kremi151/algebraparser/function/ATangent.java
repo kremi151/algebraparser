@@ -9,8 +9,8 @@ import lu.kremi151.algebraparser.interfaces.AObject;
 public class ATangent extends AFunction
 {
 
-	public ATangent(AObject inner){
-		super(inner);
+	public ATangent(AObject[] args){
+		super(args);
 	}
 
 	@Override
