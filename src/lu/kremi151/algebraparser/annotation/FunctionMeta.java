@@ -13,4 +13,6 @@ public @interface FunctionMeta {
 
 	int argsLength() default 1; 
 	int argsMinimum() default 1;
+	String[] alias() default {};
+	
 }

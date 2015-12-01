@@ -5,8 +5,8 @@ import java.util.Iterator;
 public class StringIterator implements Iterator<String>
 {
 	
-	String[] obj;
-	int idx = -1;
+	private String[] obj;
+	private int idx = -1;
 	
 	public StringIterator(String[] obj){
 		this.obj = obj;
@@ -29,10 +29,7 @@ public class StringIterator implements Iterator<String>
 	}
 
 	@Override
-	public void remove()
-	{
-		// TODO: Implement this method
-	}
+	public void remove(){}
 	
 	public StringIterator clone(){
 		StringIterator newi = new StringIterator(obj);

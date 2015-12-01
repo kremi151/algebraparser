@@ -446,7 +446,16 @@ public class AParser{
 		}else if(hasConstant(name)){
 			throw(new RuntimeException("This parser already contains a constant called \"" + cname + "\""));
 		}else{
+			FunctionMeta fm = class_.getAnnotation(FunctionMeta.class);
+			if(fm != null){
+				if(fm.argsMinimum() < 1)throw new RuntimeException("A function cannot take 0 arguments");
+			}
 			functions.put(cname, class_);
+			if(fm != null && fm.alias().length > 0){
+				for(int i = 0 ; i < fm.alias().length ; i++){
+					functions.put(fm.alias()[i], class_);
+				}
+			}
 		}
 		return this;
 	}
@@ -479,7 +488,7 @@ public class AParser{
 		FunctionMeta fm = cl.getAnnotation(FunctionMeta.class);
 		if(fm != null){
 			if(args.length < fm.argsMinimum() || args.length > fm.argsLength()){
-				throw new AlgebraException("The function \"" + name + "\" works only with " + fm.argsMinimum() + " - " + fm.argsLength() + " arguments");
+				throw new AlgebraException("The function \"" + name + "\" works only with minimum " + fm.argsMinimum() + " and maximum " + fm.argsLength() + " arguments");
 			}
 		}
 		

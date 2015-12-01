@@ -25,6 +25,10 @@ public class Complex implements AObject, AComplexable
 	public double getImaginary(){
 		return i;
 	}
+	
+	public boolean isRealNumber(){
+		return i == 0.0;
+	}
 
 	public String toString(int precision, boolean cis){
 		double pr = Math.pow(10.0, precision);

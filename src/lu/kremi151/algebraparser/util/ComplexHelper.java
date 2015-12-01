@@ -1,6 +1,8 @@
 package lu.kremi151.algebraparser.util;
 
 import lu.kremi151.algebraparser.exception.AlgebraException;
+import lu.kremi151.algebraparser.interfaces.AComplexable;
+import lu.kremi151.algebraparser.interfaces.AObject;
 import lu.kremi151.algebraparser.special.Complex;
 
 public class ComplexHelper {
@@ -39,5 +41,15 @@ public class ComplexHelper {
 			}
 		}
 		return null;
+	}
+	
+	public static Complex calculateComplexValue(AObject obj, Complex c) throws AlgebraException{
+		if(obj instanceof AComplexable){
+			return ((AComplexable)obj).getComplexResult(c);
+		}else if(c.isRealNumber()){
+			return Complex.fromNumber(obj.getResult(c.getReal()));
+		}else{
+			return Complex.fromNumber(Double.NaN);
+		}
 	}
 }

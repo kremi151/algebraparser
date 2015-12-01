@@ -309,4 +309,17 @@ public class AStatement extends ABasicObject implements AObjectSimplifiable, AMo
 		return (AlgebraHelper.isPolynome(stA) && AlgebraHelper.isPolynome(stB)) || (AlgebraHelper.isPolynome(stA) && AlgebraHelper.isMonome(stB)) || (AlgebraHelper.isPolynome(stB) && AlgebraHelper.isMonome(stA)) || (AlgebraHelper.isMonome(stA) && AlgebraHelper.isMonome(stB));
 	}
 	
+	@Override
+	public Complex getComplexResult(Complex c) throws AlgebraException {
+		if(stA instanceof Complex && stB instanceof Complex){
+			return ComplexHelper.calculateComplexOperation((Complex)stA, (Complex)stB, op);
+		}else if(stA.isConstant() && stB instanceof Complex){
+			return ComplexHelper.calculateComplexOperation(Complex.fromNumber(stA.getResult(0)), (Complex)stB, op);
+		}else if(stB.isConstant() && stA instanceof Complex){
+			return ComplexHelper.calculateComplexOperation((Complex)stA,Complex.fromNumber(stB.getResult(0)), op);
+		}else{
+			return Complex.fromNumber(getResult(c.getReal()));
+		}
+	}
+	
 }

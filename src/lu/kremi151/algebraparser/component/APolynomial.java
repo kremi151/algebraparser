@@ -2,6 +2,7 @@ package lu.kremi151.algebraparser.component;
 
 import lu.kremi151.algebraparser.interfaces.AMonomeable;
 import lu.kremi151.algebraparser.interfaces.APolynomiable;
+import lu.kremi151.algebraparser.util.Debug;
 
 public class APolynomial extends ABasicObject implements AMonomeable, APolynomiable{
 	
@@ -11,6 +12,18 @@ public class APolynomial extends ABasicObject implements AMonomeable, APolynomia
 	public APolynomial(double[] factors){
 		this.factors = factors;
 		highestDegree = factors.length - 1;
+		if(Debug.isInDebugMode()){
+			boolean foundNonZero = false;
+			for(int i = 0 ; i < factors.length ; i++){
+				if(factors[i] != 0.0){
+					foundNonZero = true;
+					break;
+				}
+			}
+			if(!foundNonZero){
+				throw new RuntimeException("Something probably went wrong constructiong this polynomial");
+			}
+		}
 	}
 
 	@Override

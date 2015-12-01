@@ -11,4 +11,8 @@ public class Debug {
 	public static void setDebugMode(boolean v){
 		debugMode = v;
 	}
+	
+	public static boolean isInDebugMode(){
+		return debugMode;
+	}
 }
