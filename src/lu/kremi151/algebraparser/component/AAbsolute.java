@@ -31,4 +31,9 @@ public class AAbsolute extends ABasicObject
 		return base.isConstant();
 	}
 	
+	@Override
+	public boolean isExact(){
+		return base.isExact();
+	}
+	
 }

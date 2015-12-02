@@ -20,5 +20,10 @@ public abstract class ABasicObject implements AObject, AComplexable{
 	public Complex getComplexResult(double r) throws AlgebraException {
 		return Complex.fromNumber(getResult(r));
 	}
+	
+	@Override
+	public boolean isExact(){
+		return true;
+	}
 
 }

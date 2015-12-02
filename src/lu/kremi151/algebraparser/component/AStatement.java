@@ -321,5 +321,10 @@ public class AStatement extends ABasicObject implements AObjectSimplifiable, AMo
 			return Complex.fromNumber(getResult(c.getReal()));
 		}
 	}
+
+	@Override
+	public boolean isExact(){
+		return stA.isExact() && stB.isExact();
+	}
 	
 }

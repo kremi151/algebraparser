@@ -26,4 +26,10 @@ public abstract class AFunction extends ABasicObject{
 		return getInner().isConstant();
 	}
 
+	@Override
+	public boolean isExact(){
+		for(int i = 0 ; i < args.length ; i++)if(!args[i].isExact())return false;
+		return true;
+	}
+
 }

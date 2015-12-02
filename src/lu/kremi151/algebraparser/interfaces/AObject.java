@@ -6,4 +6,5 @@ public interface AObject{
 	public double getResult(double x) throws AlgebraException;
 	public String getStringRepresentation();
 	public boolean isConstant();
+	public boolean isExact();
 }

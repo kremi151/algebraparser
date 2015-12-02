@@ -49,4 +49,9 @@ public class ANegative extends ABasicObject implements AMonomeable {
 		return AlgebraHelper.isMonome(obj);
 	}
 
+	@Override
+	public boolean isExact(){
+		return obj.isExact();
+	}
+
 }

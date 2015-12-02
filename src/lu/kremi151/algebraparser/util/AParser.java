@@ -14,6 +14,7 @@ import lu.kremi151.algebraparser.component.AVariable;
 import lu.kremi151.algebraparser.exception.AlgebraException;
 import lu.kremi151.algebraparser.function.ACosine;
 import lu.kremi151.algebraparser.function.ACrossfoot;
+import lu.kremi151.algebraparser.function.ADerivation;
 import lu.kremi151.algebraparser.function.AExponential;
 import lu.kremi151.algebraparser.function.ALogarithm;
 import lu.kremi151.algebraparser.function.AModulo;
@@ -52,6 +53,7 @@ public class AParser{
 				.registerFunction("cft", ACrossfoot.class)
 				.registerFunction("root", ARoot.class)
 				.registerFunction("mod", AModulo.class)
+				.registerFunction("dx", ADerivation.class)
 				.registerConstant("pi", Math.PI)
 				.registerConstant("cdeg", Math.PI / 180.0)
 				.registerConstant("e", Math.exp(1));

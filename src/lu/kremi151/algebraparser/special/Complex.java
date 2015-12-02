@@ -135,20 +135,12 @@ public class Complex implements AObject, AComplexable
 		double i = m * Math.sin(a);
 		return new Complex(r, i);
 	}
-
-	public static Complex fromCis(double module, double angle){
-		return new Complex(module * Math.cos(angle), module * Math.sin(angle));
-	}
-
-	public static Complex fromNumber(Number number){
-		return new Complex(number.doubleValue(), 0);
-	}
-
+	
 	@Override
 	public double getResult(double x)
 	{
-		if(this.i != 0)return Double.NaN;
-		return r;
+		if(getImaginary() != 0)return Double.NaN;
+		return getReal();
 	}
 
 	@Override
@@ -171,6 +163,19 @@ public class Complex implements AObject, AComplexable
 	@Override
 	public Complex getComplexResult(double r) throws AlgebraException {
 		return this;
+	}
+
+	@Override
+	public boolean isExact(){
+		return true;
+	}
+
+	public static Complex fromCis(double module, double angle){
+		return new Complex(module * Math.cos(angle), module * Math.sin(angle));
+	}
+
+	public static Complex fromNumber(Number number){
+		return new Complex(number.doubleValue(), 0);
 	}
 
 }
