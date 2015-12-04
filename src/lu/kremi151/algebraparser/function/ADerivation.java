@@ -22,6 +22,7 @@ public class ADerivation extends AFunction{
 
 	@Override
 	public double getResult(double x) throws AlgebraException {
+		x += 0.5 * pr;
 		return dx(x, pr);
 	}
 
