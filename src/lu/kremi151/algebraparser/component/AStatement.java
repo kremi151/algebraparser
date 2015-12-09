@@ -109,9 +109,9 @@ public class AStatement extends ABasicObject implements AObjectSimplifiable, AMo
 			}
 		}else if(AlgebraHelper.isPolynome(o1) && AlgebraHelper.isPolynome(o2)){
 			Debug.println("Statement + " + getStringRepresentation() + " has two polynomes");
-			if(op == AOperation.PLUS || op == AOperation.MINUS){//TODO: Multi & Divide
-				APolynomiable ap1 = (APolynomiable) o1;
-				APolynomiable ap2 = (APolynomiable) o2;
+			APolynomiable ap1 = (APolynomiable) o1;
+			APolynomiable ap2 = (APolynomiable) o2;
+			if(op == AOperation.PLUS || op == AOperation.MINUS){//TODO: Divide
 				int highestDegree = Math.max(ap1.getDegree(), ap2.getDegree());
 				double[] factors = new double[highestDegree + 1];
 				for(int i = 0 ; i < factors.length ; i++){
@@ -120,6 +120,19 @@ public class AStatement extends ABasicObject implements AObjectSimplifiable, AMo
 					factors[i] = AlgebraHelper.calculate(f1, f2, op);
 				}
 				return new APolynomial(factors); 
+			}else if(op == AOperation.MULTI){
+				int dg1 = ap1.getDegree();
+				int dg2 = ap2.getDegree();
+				double[] a = new double[dg1 + dg2 + 1];
+				for(int i = 0 ; i < dg1 ; i++){
+					for(int j = 0 ; j < dg2 ; j++){
+						int nd = i + j;
+						double ov = a[nd];
+						double nc = ap1.getConstantTermAt(i) * ap2.getConstantTermAt(j);
+						a[nd] = ov + nc;//TODO: Here is some error
+					}
+				}
+				return new APolynomial(a);
 			}
 		}else if((op != AOperation.POW && op != AOperation.DIVIDE) && ((AlgebraHelper.isPolynome(o1) && AlgebraHelper.isMonome(o2)) || (AlgebraHelper.isPolynome(o2) && AlgebraHelper.isMonome(o1)))){
 			Debug.println("Statement + " + getStringRepresentation() + " has one polynome and one monome \\{^;/}");

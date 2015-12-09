@@ -161,11 +161,6 @@ public class Complex implements AObject, AComplexable
 	}
 
 	@Override
-	public Complex getComplexResult(double r) throws AlgebraException {
-		return this;
-	}
-
-	@Override
 	public boolean isExact(){
 		return true;
 	}

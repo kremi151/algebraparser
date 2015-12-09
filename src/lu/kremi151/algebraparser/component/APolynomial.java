@@ -10,12 +10,12 @@ public class APolynomial extends ABasicObject implements AMonomeable, APolynomia
 	private int highestDegree;
 	
 	public APolynomial(double[] factors){
-		this.factors = factors;
-		highestDegree = factors.length - 1;
+		this.factors = APolynomial.shrinkArray(factors);
+		highestDegree = this.factors.length - 1;
 		if(Debug.isInDebugMode()){
 			boolean foundNonZero = false;
-			for(int i = 0 ; i < factors.length ; i++){
-				if(factors[i] != 0.0){
+			for(int i = 0 ; i < this.factors.length ; i++){
+				if(this.factors[i] != 0.0){
 					foundNonZero = true;
 					break;
 				}
@@ -115,6 +115,21 @@ public class APolynomial extends ABasicObject implements AMonomeable, APolynomia
 			}
 		}
 		return nonNullConstants <= 1;
+	}
+	
+	public static double[] shrinkArray(double[] in){
+		int idx = -1;
+		for(int i = in.length - 1 ; i >= 0 ; i--){
+			double c = in[i];
+			if(c == 0.0)idx = i;
+			else if(c != 0.0)break;
+		}
+		if(idx != -1){
+			double[] r = new double[idx + 1];
+			for(int i = 0 ; i < idx ; i++)r[i] = in[i];
+			return r;
+		}
+		return in;
 	}
 
 }

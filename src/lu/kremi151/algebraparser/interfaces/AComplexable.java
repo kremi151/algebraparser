@@ -6,6 +6,5 @@ import lu.kremi151.algebraparser.special.Complex;
 public interface AComplexable {
 
 	public Complex getComplexResult(Complex c) throws AlgebraException;
-	public Complex getComplexResult(double r) throws AlgebraException;
 	
 }
